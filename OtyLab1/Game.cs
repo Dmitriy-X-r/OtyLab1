@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,10 +10,13 @@ namespace OtyLab1
     internal class Game
     {
         Player1 player1 = new Player1();
+        public int countWin{  get; private set; }
+        public int countLose { get; private set; }
+        public int lengthGame { get; private set; }
         public void GameProcess(bool[] arrMove)
-        {
+        {           
+            lengthGame = 0;
             int lvl = 0;
-            Console.WriteLine("Положения игрока 2: \t\tПредложения игрока 1:");
             for(int i = 0; i < arrMove.Length; i++)
             {
                 bool player1sMove = player1.ChoiseMOve();
@@ -21,16 +25,19 @@ namespace OtyLab1
                 else if ((player1sMove != arrMove[i]) && (lvl > 1))
                     lvl--;
 
-                Console.WriteLine(i + 1 + " ход - " + lvl + " уровень \t\t" + (i + 1) + " ход - " + player1sMove);
                 if (lvl == 5)
                 {
-                    Console.WriteLine("Игрок вышел из лабиринта");
+                    countWin++;
+                    lengthGame = i+1;
                     break;
                 }             
             }
 
             if (lvl != 5)
-                Console.WriteLine("Поражение. Ходы закончились.");
+            {
+                countLose++;
+            }
+                
         }
     }
 }
